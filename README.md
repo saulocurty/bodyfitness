@@ -1,1 +1,3 @@
-# bodyfitness
+openpyxl
+pandas
+tkinter
