@@ -97,3 +97,12 @@ def Inserir_Aliemento(user: Usuario, comida: Alimento):
 def Remover_Alimento(user: Usuario, comida: Alimento):
     pass
 
+
+def Login(user: Usuario):
+    if(Verifica_Usuario(user)):
+        print("Voce esta logado!")
+        return 1
+    else:
+        print("Usuario não registrado")
+        return 0
+

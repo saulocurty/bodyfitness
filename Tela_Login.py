@@ -1,5 +1,6 @@
 from tkinter import *
 from turtle import width
+import man_arquivos 
 
 
 class TelaLogin:
@@ -31,18 +32,20 @@ class TelaLogin:
         self.nome.grid(column=0, row=2)
 
         self.botao1 = Button(self.container3, text="Login", width=10)
+        self.botao1['command'] = 
         self.botao1.grid()
         self.botao2 = Button(self.container3, text="Registro", width=10)
         self.botao2.grid()
 
+    def Logar(self):
+        self.nomeT
 
 
 
 
-
-      
-root = Tk()
-root.geometry("300x300") #tamanho da tela
-root.resizable(width=0, height=0)
-TelaLogin(root)
-root.mainloop()
+if __name__ == "__main__":     
+    root = Tk()
+    root.geometry("300x300") #tamanho da tela
+    root.resizable(width=0, height=0)
+    TelaLogin(root)
+    root.mainloop()
