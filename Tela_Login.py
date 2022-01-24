@@ -1,6 +1,8 @@
 from tkinter import *
 from turtle import width
-import man_arquivos 
+from tkinter import messagebox
+from man_arquivos import *
+
 
 
 class TelaLogin:
@@ -32,13 +34,21 @@ class TelaLogin:
         self.nome.grid(column=0, row=2)
 
         self.botao1 = Button(self.container3, text="Login", width=10)
-        self.botao1['command'] = 
+        self.botao1["command"] = self.Logar
         self.botao1.grid()
         self.botao2 = Button(self.container3, text="Registro", width=10)
         self.botao2.grid()
 
     def Logar(self):
-        self.nomeT
+        email_user = self.nome.get()
+        A = Usuario('a', 19, 99, email_user, 'm')
+        if(not Verifica_Usuario(A)):
+            messagebox.showerror("Erro Login", "Usuario Não Existe")
+        else:
+            messagebox.showinfo('Logado', 'Parabens, voce esta logado')
+
+    
+
 
 
 
