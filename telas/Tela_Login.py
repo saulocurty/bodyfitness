@@ -25,7 +25,7 @@ class TelaLogin:
         self.titulo = Label(self.container1, text="Login", font=("Arial", "16"))
         self.titulo.grid(column=0, row=0, pady=(0, 0))
 
-        self.nomeT = Label(self.container2, text="Nome", font=("Arial", "12"))
+        self.nomeT = Label(self.container2, text="Email", font=("Arial", "12"))
         self.nomeT.grid(column=0, row=1)
         self.nome = Entry(self.container2, width=10, font=("Arial", "12"))
         self.nome.grid(column=0, row=2)

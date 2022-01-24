@@ -1,4 +1,4 @@
-from usuarios import Usuario
+from '../man_arquivos' import Usuario
 
 from tkinter import *
 

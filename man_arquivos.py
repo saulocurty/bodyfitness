@@ -3,6 +3,16 @@ import pandas as pd
 import csv
 import asyncio
 import os
+import shutil
+
+
+
+class Alimento:
+    def __init__(self, nome : str,  calorias:str):
+        self.nome = nome
+        self.calorias = calorias
+
+
 
 class Usuario:
     def __init__(self, nome:str, idade:int, peso:int, email:str, genero:str):
@@ -34,7 +44,7 @@ def Busca_Usuario_Tabela(usuario:str, email:str):
         if (i.lower() == email.lower()):
             print("Email encontrado")
             return 1
-    return 
+    return 0
 
 def Cria_Usuario(Usuario):
     if(Verifica_Usuario(Usuario)):
@@ -48,19 +58,42 @@ def Cria_Usuario(Usuario):
             #verifica se ja existe o usuario
         
         diretorio = Usuario.email
+        diretorio2 = os.path.abspath('.') + '/originais/Tabela Alimentos.csv'
+        diretorio3 = os.path.abspath('.') + '/originais/Tabela Exercicio.csv'
         meu_path = os.path.abspath('.') + '/usuarios/' + diretorio 
         os.mkdir(meu_path)
+        shutil.copy(diretorio2, meu_path)
+        shutil.copy(diretorio3, meu_path)
  
 def Deleta_Usuario(Usuario):
-    with open('')
+    pass
 
 
-Saulo = Usuario("AGles", 16, 48, "saulo@gmail.com", "M")
-#Cria_Usuario(Saulo)
-Deleta_Usuario(Saulo)
-#print(Busca_Usuario_Tabela(Saulo.nome, Saulo.email))
+def Verifica_Alimento(user : Usuario, comida: Alimento): #modificar depois
+    path_l = path_l = f'usuarios/{user.email}/Tabela Alimentos.csv'
+    Table = pd.read_csv(path_l)
+    Alimentos = Table['Alimentos']
+    for i in Alimentos:
+        print('--- i = ', i, 'alimento compara = ', comida.nome) #debug
+        if(i.lower() == comida.nome.lower()):
+            print("Alimento encontrado")
+            return 1
+    return 0
 
 
+def Inserir_Aliemento(user: Usuario, comida: Alimento):
+    path_l = f'usuarios/{user.email}/Tabela Alimentos.csv'
+    if(Verifica_Alimento(user, comida)):
+        print("Alimento ja existe")
+        return
+    else:
+         with open(path_l,"a", newline='') as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+            arquivo.writerow([comida.nome, comida.calorias])
+            print("Alimento Criado")
+            #verifica se ja existe o usuario
 
 
+def Remover_Alimento(user: Usuario, comida: Alimento):
+    pass
 
