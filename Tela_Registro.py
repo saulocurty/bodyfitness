@@ -1,6 +1,7 @@
 from tkinter import *
 from turtle import width
-
+from man_arquivos import *
+from tkinter import messagebox
 
 class TelaRegistro:
     def __init__(self, master=None):
@@ -35,21 +36,36 @@ class TelaRegistro:
         self.idade = Entry(self.container2, width=10, font=("Arial", "12"))
         self.idade.grid(column=1, row=1)
 
-        self.alturaT = Label(self.container2, text="Altura", font=("Arial", "12"))
-        self.alturaT.grid(column=0, row=2)
-        self.altura = Entry(self.container2, width=10, font=("Arial", "12"))
-        self.altura.grid(column=1, row=2)
+        self.emailT = Label(self.container2, text="Email", font=("Arial", "12"))
+        self.emailT.grid(column=0, row=2)
+        self.email = Entry(self.container2, width=10, font=("Arial", "12"))
+        self.email.grid(column=1, row=2)
 
         self.pesoT = Label(self.container2, text="Peso", font=("Arial", "12"))
         self.pesoT.grid(column=0, row=3)
         self.peso = Entry(self.container2, width=10, font=("Arial"))
         self.peso.grid(column=1, row=3)
 
+        self.generoT = Label(self.container2, text = 'Genero', width=10, font=("Arial", '12'))
+        self.generoT.grid(column=0, row=4)
+        self.genero = Entry(self.container2, width=10, font=("Arial"))
+        self.genero.grid(column=1, row=4)
+
 
         self.botao1 = Button(self.container3, text="Registro", width=10)
+        self.botao1['command'] = self.Registrar
         self.botao1.grid(padx=(70, 0))
 
-
+    def Registrar(self):
+        user = Usuario(
+            self.nome.get(),
+            self.idade.get(),
+            self.peso.get(),
+            self.email.get(),
+            self.genero.get()
+        )
+        if(Cria_Usuario(user)):
+            messagebox.showinfo('Registrado', 'Parabens, voce esta Registrado')
 
 
 

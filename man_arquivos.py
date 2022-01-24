@@ -49,7 +49,7 @@ def Busca_Usuario_Tabela(usuario:str, email:str):
 def Cria_Usuario(Usuario):
     if(Verifica_Usuario(Usuario)):
         print("Usuario ja existe")
-        return
+        return 0
     else:    
         with open('usuarios/Usuarios.csv',"a", newline='') as csv_file:
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
@@ -64,6 +64,7 @@ def Cria_Usuario(Usuario):
         os.mkdir(meu_path)
         shutil.copy(diretorio2, meu_path)
         shutil.copy(diretorio3, meu_path)
+        return 1
  
 def Deleta_Usuario(Usuario):
     pass
