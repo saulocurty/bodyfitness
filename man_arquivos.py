@@ -107,3 +107,9 @@ def Login(user: Usuario):
         print("Usuario não registrado")
         return 0
 
+def Seleciona_Alimento(user: Usuario, comida: Alimento):
+    pass
+    
+
+def Seleciona_Exercicio():
+    pass
