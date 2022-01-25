@@ -57,6 +57,8 @@ def Cria_Usuario(Usuario):
             print("Usuario Criado")
             #verifica se ja existe o usuario
         
+        tabela1 = os.path.abspath('.') + '/originais/Exercicio Dia.csv'
+        tabela2 = os.path.abspath('.') + '/originais/Alimentos Dia.csv'
         diretorio = Usuario.email
         diretorio2 = os.path.abspath('.') + '/originais/Tabela Alimentos.csv'
         diretorio3 = os.path.abspath('.') + '/originais/Tabela Exercicio.csv'
@@ -64,19 +66,21 @@ def Cria_Usuario(Usuario):
         os.mkdir(meu_path)
         shutil.copy(diretorio2, meu_path)
         shutil.copy(diretorio3, meu_path)
+        shutil.copy(tabela1, meu_path)
+        shutil.copy(tabela2, meu_path)
         return 1
  
 def Deleta_Usuario(Usuario):
     pass
 
 
-def Verifica_Alimento(user : Usuario, comida: Alimento): #modificar depois
+def Verifica_Alimento(user : Usuario, nome: str): #modificar depois
     path_l = path_l = f'usuarios/{user.email}/Tabela Alimentos.csv'
     Table = pd.read_csv(path_l)
     Alimentos = Table['Alimentos']
     for i in Alimentos:
-        print('--- i = ', i, 'alimento compara = ', comida.nome) #debug
-        if(i.lower() == comida.nome.lower()):
+        print('--- i = ', i, 'alimento compara = ', nome) #debug
+        if(i.lower() == nome.lower()):
             print("Alimento encontrado")
             return 1
     return 0
@@ -84,7 +88,7 @@ def Verifica_Alimento(user : Usuario, comida: Alimento): #modificar depois
 
 def Inserir_Aliemento(user: Usuario, comida: Alimento):
     path_l = f'usuarios/{user.email}/Tabela Alimentos.csv'
-    if(Verifica_Alimento(user, comida)):
+    if(Verifica_Alimento(user, comida.nome)):
         print("Alimento ja existe")
         return
     else:
@@ -107,9 +111,52 @@ def Login(user: Usuario):
         print("Usuario não registrado")
         return 0
 
-def Seleciona_Alimento(user: Usuario, comida: Alimento):
-    pass
+def Seleciona_Alimento( nome: str, email: str): #modificar depois
+    alimento_string = ''
+    path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+    Table = pd.read_csv(path_l)
+    Alimentos = Table['Alimentos']
     
+    contador = 0
+    for i in Alimentos:
+        print('--- i = ', i, 'alimento compara = ', nome) #debug
+        if(i.lower() == nome.lower()):
+            print('=======================')
+            x = Table.loc[[contador]].to_string(header=False, index=False, index_names=False)
+            nova = x.split(' ')
+            alimento_string = ','.join(nova)
+            print(alimento_string)
+            return alimento_string
+        contador = contador + 1
+    return 0
+
+
+def Adiciona_Alimento_Dia(ex: str, email: str):
+    nome = Seleciona_Alimento(ex, email)
+    nomeA = ''
+    nomeB = ''
+    controle = 0
+    for element in nome: 
+        if element == ',':
+            controle = 1
+            continue
+        elif controle == 1:
+            nomeB = nomeB + element
+        elif controle == 0: 
+            nomeA = nomeA + element
+
+
+
+
+    pathL =  f'usuarios/{email}/Alimentos Dia.csv'
+
+    with open(pathL,"a", newline='') as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+            arquivo.writerow([NomeA, NomeB])
+            print("Alimento Criado")
+
 
 def Seleciona_Exercicio():
     pass
+
+Adiciona_Alimento_Dia('alho', 'sullo152@gmail.com')
