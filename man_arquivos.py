@@ -119,13 +119,11 @@ def Seleciona_Alimento( nome: str, email: str): #modificar depois
     
     contador = 0
     for i in Alimentos:
-        print('--- i = ', i, 'alimento compara = ', nome) #debug
         if(i.lower() == nome.lower()):
-            print('=======================')
             x = Table.loc[[contador]].to_string(header=False, index=False, index_names=False)
             nova = x.split(' ')
             alimento_string = ','.join(nova)
-            print(alimento_string)
+            print(alimento_string)#debug
             return alimento_string
         contador = contador + 1
     return 0
@@ -145,18 +143,31 @@ def Adiciona_Alimento_Dia(ex: str, email: str):
         elif controle == 0: 
             nomeA = nomeA + element
 
-
-
-
     pathL =  f'usuarios/{email}/Alimentos Dia.csv'
 
     with open(pathL,"a", newline='') as csv_file:
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-            arquivo.writerow([NomeA, NomeB])
-            print("Alimento Criado")
+            arquivo.writerow([nomeA, nomeB])
+            print("Alimento Criado") 
 
 
-def Seleciona_Exercicio():
+def Seleciona_Exercicio(nome: str, email : str):
+    exercicio_string = ''
+    path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+    Table = pd.read_csv(path_l)
+    Alimentos = Table['Alimentos']
+    
+    contador = 0
+    for i in Alimentos:
+        if(i.lower() == nome.lower()):
+            x = Table.loc[[contador]].to_string(header=False, index=False, index_names=False)
+            nova = x.split(' ')
+            alimento_string = ','.join(nova)
+            print(alimento_string)#debug
+            return alimento_string
+        contador = contador + 1
+    return 0
+
+def Adiciona_Exercicio_Dia():
     pass
-
 Adiciona_Alimento_Dia('alho', 'sullo152@gmail.com')
