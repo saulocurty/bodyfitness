@@ -8,7 +8,6 @@ class TelaRegistro:
         master.title("Regsitro")
 
         self.container1 = Frame(master)
-        self.container1["pady"] = 20
         self.container1["padx"] = 50
         self.container1.grid(column=0, row=0, pady=(40, 0))
 
@@ -24,7 +23,7 @@ class TelaRegistro:
 
 
         self.titulo = Label(self.container1, text="Registro", font=("Arial", "16"))
-        self.titulo.grid(column=0, row=0, padx=(70, 0))
+        self.titulo.grid(column=0, row=0, padx=(60, 0))
 
         self.nomeT = Label(self.container2, text="Nome", font=("Arial", "12"))
         self.nomeT.grid(column=0, row=0, padx=(0,0))
@@ -70,6 +69,11 @@ class TelaRegistro:
         else:
             if(Cria_Usuario(user)):
                 messagebox.showinfo('Registrado', 'Parabens, voce esta Registrado')
+                self.nome.delete(0,100)
+                self.idade.delete(0, 100)
+                self.peso.delete(0, 100)
+                self.email.delete(0, 100)
+                self.genero.delete(0, 100)
 
 
 

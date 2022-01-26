@@ -6,11 +6,20 @@ import os
 import shutil
 
 
+class Exercicio:
+    def __init__(self, nome:str, caloriaM: int, caloriaH: int):
+        self.nome = nome
+        self.caloriaM = caloriaM
+        self.caloriaH = caloriaH
+
+
+
 
 class Alimento:
-    def __init__(self, nome : str,  calorias:str):
+    def __init__(self, nome : str,  calorias: str):
         self.nome = nome
-        self.calorias = calorias
+        self.caloria =  calorias
+        
 
 
 
@@ -30,10 +39,10 @@ class Usuario:
         self.genero - self.genero if genero == '-1' else genero
 
     
-def Verifica_Usuario(Usuario):
-    nome_busca = Usuario.nome
-    email_busca = Usuario.email
-    return Busca_Usuario_Tabela(Usuario.nome, Usuario.email)
+def Verifica_Usuario(user: Usuario):
+    nome_busca = user.nome
+    email_busca = user.email
+    return Busca_Usuario_Tabela(user.nome, user.email)
 
 def Busca_Usuario_Tabela(usuario:str, email:str):
     Tabela = pd.read_csv('usuarios/Usuarios.csv')
@@ -46,20 +55,20 @@ def Busca_Usuario_Tabela(usuario:str, email:str):
             return 1
     return 0
 
-def Cria_Usuario(Usuario):
-    if(Verifica_Usuario(Usuario)):
+def Cria_Usuario(user: Usuario):
+    if(Verifica_Usuario(user)):
         print("Usuario ja existe")
         return 0
     else:    
-        with open('usuarios/Usuarios.csv',"a", newline='', encoding="utf-8") as csv_file:
-            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-            arquivo.writerow([Usuario.email, Usuario.nome, Usuario.idade, Usuario.peso, Usuario.genero])
+        with open('usuarios/Usuarios.csv',"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
+            arquivo.writerow([user.email, user.nome, user.idade, user.peso, user.genero])
             print("Usuario Criado")
             #verifica se ja existe o usuario
         
         tabela1 = os.path.abspath('.') + '/originais/Exercicio Dia.csv'
         tabela2 = os.path.abspath('.') + '/originais/Alimentos Dia.csv'
-        diretorio = Usuario.email
+        diretorio = user.email
         diretorio2 = os.path.abspath('.') + '/originais/Tabela Alimentos.csv'
         diretorio3 = os.path.abspath('.') + '/originais/Tabela Exercicio.csv'
         meu_path = os.path.abspath('.') + '/usuarios/' + diretorio 
@@ -74,10 +83,37 @@ def Deleta_Usuario(Usuario):
     pass
 
 
-def Verifica_Alimento(user : Usuario, nome: str): #modificar depois
-    path_l = path_l = f'usuarios/{user.email}/Tabela Alimentos.csv'
-    Table = pd.read_csv(path_l)
-    Alimentos = Table['Alimentos']
+def Verifica_Exercicio(nome: str, email: str):
+    path_l = path_l = f'usuarios/{email}/Tabela Exercicio.csv'
+    print("To na verifica E")
+    print(path_l)
+    Tabela = pd.read_csv(path_l)
+    Exercicios = Tabela['Atividade 30 minutos']
+    for i in Exercicios:
+        print('--- i = ', i, 'alimento compara = ', nome) #debug
+        if(i.lower() == nome.lower()):
+            print("Exercicio encontrado")
+            return 1
+    return 0
+
+def Inserir_Exercicio(email: str, exercicio: Exercicio):
+    path_l = f'usuarios/{email}/Tabela Exercicio.csv'
+    if(Verifica_Exercicio(exercicio.nome, email)):
+        print("Exercicio Ja existe")
+        return
+    else:
+         with open(path_l,"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
+            arquivo.writerow([exercicio.nome, exercicio.caloriaH, exercicio.caloriaM])
+            print("Exercicio Criado")
+            #verifica se ja existe o usuario
+
+def Verifica_Alimento(email: str, nome: str): #modificar depois
+    path_l = path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+    print("To na verifica")
+    print(path_l)
+    Tabela = pd.read_csv(path_l)
+    Alimentos = Tabela['Alimentos']
     for i in Alimentos:
         print('--- i = ', i, 'alimento compara = ', nome) #debug
         if(i.lower() == nome.lower()):
@@ -86,15 +122,16 @@ def Verifica_Alimento(user : Usuario, nome: str): #modificar depois
     return 0
 
 
-def Inserir_Aliemento(user: Usuario, comida: Alimento):
-    path_l = f'usuarios/{user.email}/Tabela Alimentos.csv'
-    if(Verifica_Alimento(user, comida.nome)):
+def Inserir_Alimento(email: str, comida: Alimento):
+    path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+    if(Verifica_Alimento(email, comida.nome)):
         print("Alimento ja existe")
         return
     else:
-         with open(path_l,"a", newline='', encoding="utf-8") as csv_file:
-            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+         with open(path_l,"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
             arquivo.writerow([comida.nome, comida.calorias])
+            print("Estou na INserir Alimentos e adicionei o aliemnto")
             print("Alimento Criado")
             #verifica se ja existe o usuario
 
@@ -145,8 +182,8 @@ def Adiciona_Alimento_Dia(ex: str, email: str):
 
     pathL =  f'usuarios/{email}/Alimentos Dia.csv'
 
-    with open(pathL,"a", newline='', encoding="utf-8") as csv_file:
-            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    with open(pathL,"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
             arquivo.writerow([nomeA, nomeB])
             print("Alimento Criado") 
 
@@ -172,8 +209,8 @@ def Seleciona_Exercicio(nome: str, email : str):
 def Adiciona_Exercicio_Dia(ex: str, email: str):
     nome = Seleciona_Exercicio(ex, email)
     pathL = f'usuarios/{email}/Exercicio Dia.csv'
-    with open(pathL,"a", newline='', encoding="utf-8") as csv_file:
-            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    with open(pathL,"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
             arquivo.writerow([nome[0], nome[1], nome[2]])
             print("Exercicio Criado") 
 

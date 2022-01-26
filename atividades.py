@@ -1,4 +1,5 @@
 from man_arquivos import *
 
-def CalculaFatorAtividade(idade: int, genero: str, atividade: int):
+def CalculaBEE(idade: int, genero: str,peso: int):
+
 

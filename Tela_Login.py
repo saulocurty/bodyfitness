@@ -46,6 +46,7 @@ class TelaLogin:
             messagebox.showerror("Erro Login", "Usuario Não Existe")
         else:
             messagebox.showinfo('Logado', 'Parabens, voce esta logado')
+            self.nome.delete(0, 100)
 
     
 
