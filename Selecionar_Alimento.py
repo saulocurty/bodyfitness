@@ -3,6 +3,7 @@ from tkinter import ttk
 from man_arquivos import *
 
 
+
 class SelecionarExercicio:
     def __init__(self, master=None):
         master.title("Selecionar Alimento")
@@ -10,7 +11,6 @@ class SelecionarExercicio:
 
         self.container1 = Frame(master)
         self.container1["pady"] = 20
-        self.container1["padx"] = 50
         self.container1.grid(column=0, row=0, pady=(40, 0))
 
         self.container2 = Frame(master)
@@ -22,10 +22,32 @@ class SelecionarExercicio:
         #self.container3['pady'] = 20
         self.container3.grid(column=0, row=2)
 
-        self.comboAlimento = ttk.Combobox(
-            self.container2,
-            
-        )
+        self.titulo = Label(self.container1, font=("Arial", "12"), text='Selecionar Alimento')
+        self.titulo.grid(row=0, column=0, sticky='w')
+
+        self.nome = Label(self.container2, font=("Arial", "12"), text='Alimento:')
+        self.nome.grid(row=1, column=0, sticky='w')
+        self.comboAlimento = ttk.Combobox(self.container2, value=self.BuscaAlimentos('sullo152@gmail.com'),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
+        self.comboAlimento.grid(column=1, row=1, sticky='w')
+        self.comboAlimento.current(0)
+
+        self.caloria = Label(self.container2, font=("Arial", "12"), text='Quantidade(g):')
+        self.caloria.grid(row=3, column=0, sticky='w')
+        self.dado = Entry(self.container2, width=13, font=("Arial", "12"))
+        self.dado.grid(row=3, column=1, sticky='w')
+
+        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"))
+        self.botao_salvar.grid()
+    def BuscaAlimentos(self, email: str):
+        path_l = path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+        print("To na verifica")
+        print(path_l)
+        Tabela = pd.read_csv(path_l)
+        Alimentos = Tabela['Alimentos']
+        lista_alimentos = Alimentos.values.tolist()
+
+        return lista_alimentos
+        
 
 
 root = Tk()

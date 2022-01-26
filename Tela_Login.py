@@ -45,6 +45,7 @@ class TelaLogin:
         if(not Verifica_Usuario(A)):
             messagebox.showerror("Erro Login", "Usuario Não Existe")
         else:
+            usuario_logado = email_user
             messagebox.showinfo('Logado', 'Parabens, voce esta logado')
             self.nome.delete(0, 100)
 

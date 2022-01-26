@@ -6,6 +6,7 @@ import os
 import shutil
 
 
+
 class Exercicio:
     def __init__(self, nome:str, caloriaM: int, caloriaH: int):
         self.nome = nome
@@ -29,7 +30,7 @@ class Usuario:
         self.idade = idade
         self.peso = peso
         self.email = email
-        self.genero = genero
+        self.genero = genero.lower()
     
     def Muda_Dados(self, nome: str = '-1', idade : int=-1, peso: int=-1, email: str='-1', genero: str='-1'):
         self.nome = self.nome if nome == '-1' else nome
@@ -38,7 +39,10 @@ class Usuario:
         self.email = self.email if email == '-1' else email
         self.genero - self.genero if genero == '-1' else genero
 
-    
+
+usuario_logado = ''
+
+
 def Verifica_Usuario(user: Usuario):
     nome_busca = user.nome
     email_busca = user.email
