@@ -46,7 +46,7 @@ class TelaRegistro:
         self.peso = Entry(self.container2, width=10, font=("Arial"))
         self.peso.grid(column=1, row=3)
 
-        self.generoT = Label(self.container2, text = 'Genero', width=10, font=("Arial", '12'))
+        self.generoT = Label(self.container2, text = 'Sexo', width=10, font=("Arial", '12'))
         self.generoT.grid(column=0, row=4)
         self.genero = Entry(self.container2, width=10, font=("Arial"))
         self.genero.grid(column=1, row=4)
@@ -64,8 +64,12 @@ class TelaRegistro:
             self.email.get(),
             self.genero.get()
         )
-        if(Cria_Usuario(user)):
-            messagebox.showinfo('Registrado', 'Parabens, voce esta Registrado')
+        g = self.genero.get()
+        if(g.upper() != 'F' and g.upper() != 'M'):
+            messagebox.showerror("Erro de Cadastro", "Digite F ou M no Campo 'Sexo'")
+        else:
+            if(Cria_Usuario(user)):
+                messagebox.showinfo('Registrado', 'Parabens, voce esta Registrado')
 
 
 

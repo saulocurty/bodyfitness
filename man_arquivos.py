@@ -176,5 +176,7 @@ def Adiciona_Exercicio_Dia(ex: str, email: str):
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
             arquivo.writerow([nome[0], nome[1], nome[2]])
             print("Exercicio Criado") 
-    
-Adiciona_Exercicio_Dia('Dança', 'sullo152@gmail.com')
+
+
+if __name__ == '__main__':    
+    Adiciona_Exercicio_Dia('Dança', 'sullo152@gmail.com')
