@@ -8,10 +8,10 @@ import shutil
 
 
 class Exercicio:
-    def __init__(self, nome:str, caloriaM: int, caloriaH: int):
+    def __init__(self, nome:str, caloria: int):
         self.nome = nome
-        self.caloriaM = caloriaM
-        self.caloriaH = caloriaH
+        self.caloria = caloria
+        
 
 
 
