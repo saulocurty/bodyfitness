@@ -1,55 +1,53 @@
 from tkinter import *
 from turtle import width
 from tkinter import messagebox
+from tkinter import ttk
 from man_arquivos import *
 
 
 
 class ResumoDiario:
     def __init__(self, master=None):
-        master.title("LOGIN")
-
-        self.container1 = Frame(master)
-        self.container1["pady"] = 20
-        self.container1.grid(column=0, row=0, pady=(40, 0))
-
-        self.container2 = Frame(master)
-        self.container2['pady'] = 20
-        self.container2["padx"] = 110
-        self.container2.grid(column=0, row=1)
-
-        self.container3 = Frame(master)
-        #self.container3['pady'] = 20
-        self.container3["padx"] = 110
-        self.container3.grid(column=0, row=2)
+        master.title("Resumo")
+        
+        self.div1 = Frame(master, bg='#00CED1')
+        self.div1.grid(row=0, column=0)
+        self.div2 = Frame(master, bg='#00CED1')
+        self.div2.grid(row=1, column=0)
+        self.div3 = Frame(master)
+        self.div3.grid(row=2, column=0)
 
 
 
-        self.titulo = Label(self.container1, text="Login", font=("Arial", "16"))
-        self.titulo.grid(column=0, row=0, pady=(0, 0))
+        self.titulo = Label(self.div1, font=('Arial', '16', 'bold'), text='Resumo Diario', bg='#00CED1')
+        self.titulo.grid(column=0, row=0)
 
-        self.nomeT = Label(self.container2, text="Email", font=("Arial", "12"))
-        self.nomeT.grid(column=0, row=1)
-        self.nome = Entry(self.container2, width=10, font=("Arial", "12"))
-        self.nome.grid(column=0, row=2)
+        self.alimentosList = ttk.Treeview(self.div2,column=('#0','nome', 'caloria', 'total'))
+  
+        self.alimentosList.heading("#0",text="")
+        self.alimentosList.heading("nome",text="Nome")
+        self.alimentosList.heading("caloria", text='Calorias')
+        self.alimentosList.heading("total", text='Total')
 
-        self.botao1 = Button(self.container3, text="Login", width=10)
-        self.botao1["command"] = self.Logar
-        self.botao1.grid()
-        self.botao2 = Button(self.container3, text="Registro", width=10)
-        self.botao2.grid()
+        self.alimentosList.column("#0", width="0")
+        self.alimentosList.column("nome", width="200")
+        self.alimentosList.column("caloria", width="50")
+        self.alimentosList.column("total", width="50")
+        self.alimentosList.grid()
+        
+        #self.exercicioList = ttk.Treeview(self.div2, height=3, column=())
+        
+        
 
-    def Logar(self):
-        email_user = self.nome.get()
-        A = Usuario('a', 19, 99, email_user, 'm')
-        if(not Verifica_Usuario(A)):
-            messagebox.showerror("Erro Login", "Usuario Não Existe")
-        else:
-            usuario_logado = email_user
-            messagebox.showinfo('Logado', 'Parabens, voce esta logado')
-            self.nome.delete(0, 100)
+    def Coluna_Alimento_Alimento(self, email: str):
+        path_l = path_l = f'usuarios/{email}/Exercicio Dia.csv'
+        print("Buscando coluna alimentos...")
+        Tabela = pd.read_csv(path_l)
+        Alimentos = Tabela['Alimentos']
+        lista_alimentos = Alimentos.values.tolist()
 
-    
+        return tuple(lista_alimentos)
+
 
 
 
@@ -58,7 +56,7 @@ class ResumoDiario:
 if __name__ == "__main__":     
     root = Tk()
     root.geometry("600x600") #tamanho da tela
-    root.configure(background='white')
+    root.configure(background='#00CED1')
     root.resizable(width=0, height=0)
     ResumoDiario(root)
     root.mainloop()
