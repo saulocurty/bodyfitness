@@ -51,7 +51,7 @@ def Cria_Usuario(Usuario):
         print("Usuario ja existe")
         return 0
     else:    
-        with open('usuarios/Usuarios.csv',"a", newline='') as csv_file:
+        with open('usuarios/Usuarios.csv',"a", newline='', encoding="utf-8") as csv_file:
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
             arquivo.writerow([Usuario.email, Usuario.nome, Usuario.idade, Usuario.peso, Usuario.genero])
             print("Usuario Criado")
@@ -92,7 +92,7 @@ def Inserir_Aliemento(user: Usuario, comida: Alimento):
         print("Alimento ja existe")
         return
     else:
-         with open(path_l,"a", newline='') as csv_file:
+         with open(path_l,"a", newline='', encoding="utf-8") as csv_file:
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
             arquivo.writerow([comida.nome, comida.calorias])
             print("Alimento Criado")
@@ -145,7 +145,7 @@ def Adiciona_Alimento_Dia(ex: str, email: str):
 
     pathL =  f'usuarios/{email}/Alimentos Dia.csv'
 
-    with open(pathL,"a", newline='') as csv_file:
+    with open(pathL,"a", newline='', encoding="utf-8") as csv_file:
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
             arquivo.writerow([nomeA, nomeB])
             print("Alimento Criado") 
@@ -153,21 +153,28 @@ def Adiciona_Alimento_Dia(ex: str, email: str):
 
 def Seleciona_Exercicio(nome: str, email : str):
     exercicio_string = ''
-    path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+    path_l = f'usuarios/{email}/Tabela Exercicio.csv'
     Table = pd.read_csv(path_l)
-    Alimentos = Table['Alimentos']
+    Exercicios = Table['Atividade 30 minutos']
+    #print(Exercicios)
     
     contador = 0
-    for i in Alimentos:
+    for i in Exercicios:
         if(i.lower() == nome.lower()):
             x = Table.loc[[contador]].to_string(header=False, index=False, index_names=False)
             nova = x.split(' ')
-            alimento_string = ','.join(nova)
-            print(alimento_string)#debug
-            return alimento_string
+            #alimento_string = ','.join(nova)
+            #print(alimento_string)#debug
+            return nova
         contador = contador + 1
     return 0
 
-def Adiciona_Exercicio_Dia():
-    pass
-Adiciona_Alimento_Dia('alho', 'sullo152@gmail.com')
+def Adiciona_Exercicio_Dia(ex: str, email: str):
+    nome = Seleciona_Exercicio(ex, email)
+    pathL = f'usuarios/{email}/Exercicio Dia.csv'
+    with open(pathL,"a", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+            arquivo.writerow([nome[0], nome[1], nome[2]])
+            print("Exercicio Criado") 
+    
+Adiciona_Exercicio_Dia('Dança', 'sullo152@gmail.com')
