@@ -22,7 +22,7 @@ class ResumoDiario:
         self.titulo = Label(self.div1, font=('Arial', '16', 'bold'), text='Resumo Diario', bg='#00CED1')
         self.titulo.grid(column=0, row=0)
 
-        self.alimentosList = ttk.Treeview(self.div2,column=('#0','nome', 'caloria', 'total'))
+        self.alimentosList = ttk.Treeview(self.div2,column=('nome', 'caloria', 'total'))
   
         self.alimentosList.heading("#0",text="")
         self.alimentosList.heading("nome",text="Nome")
@@ -30,10 +30,23 @@ class ResumoDiario:
         self.alimentosList.heading("total", text='Total')
 
         self.alimentosList.column("#0", width="0")
-        self.alimentosList.column("nome", width="200")
-        self.alimentosList.column("caloria", width="50")
-        self.alimentosList.column("total", width="50")
-        self.alimentosList.grid()
+        self.alimentosList.column("nome", width="150")
+        self.alimentosList.column("caloria", width="70")
+        self.alimentosList.column("total", width="70")
+        self.alimentosList.grid(row=1, column=0)
+
+        self.exerciciosList = ttk.Treeview(self.div2,column=('nome', 'caloria', 'total'))
+  
+        self.exerciciosList.heading("#0",text="")
+        self.exerciciosList.heading("nome",text="Nome")
+        self.exerciciosList.heading("caloria", text='Calorias')
+        self.exerciciosList.heading("total", text='Total')
+
+        self.exerciciosList.column("#0", width="0")
+        self.exerciciosList.column("nome", width="150")
+        self.exerciciosList.column("caloria", width="70")
+        self.exerciciosList.column("total", width="70")
+        self.exerciciosList.grid(row=1, column=1)
         
         #self.exercicioList = ttk.Treeview(self.div2, height=3, column=())
         
