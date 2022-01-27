@@ -1,3 +1,4 @@
+from calendar import c
 from distutils.log import error
 import pandas as pd
 import csv
@@ -217,6 +218,26 @@ def Adiciona_Exercicio_Dia(ex: str, email: str):
             arquivo.writerow([nome[0], nome[1], nome[2]])
             print("Exercicio Criado") 
 
+def Add_Alimento(nome: str, email:str, calorias: int):
+    pathR = f'usuarios/{email}/Tabela Alimentos.csv'
+    grama = calorias
+    Tabela = pd.read_csv(pathR)
+    Tabela2 = Tabela['Alimentos']
+    contador = 0
+    for i in Tabela2:
+        if i.lower() == nome.lower():
+            break
+        contador+=1
+    caloria = Tabela['Calorias'].loc[[contador]]
+
+    Ocaloria = (grama * caloria)/100
+
+
+
+    with open(pathR,"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
+            arquivo.writerow([nome, Ocaloria])
+            print("Alimento Criado") 
 
 if __name__ == '__main__':    
     Adiciona_Exercicio_Dia('Dança', 'sullo152@gmail.com')

@@ -10,7 +10,7 @@ class SelecionarExercicio:
 
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
-
+        print(usuario_logado)
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
         self.container1 = Frame(master)
@@ -41,20 +41,27 @@ class SelecionarExercicio:
         self.dado = Entry(self.container2, width=13, font=("Arial", "12"))
         self.dado.grid(row=3, column=1, sticky='w')
 
-        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar')
+        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar', command=self.Acao(usuario_logado))
         self.botao_salvar.grid(padx=(60, 0), pady=(30, 0))
 
 
-    def BuscaAlimentos(self):
-        path_l = path_l = f'usuarios/{usuario_logado}/Tabela Alimentos.csv'
-        print("To na verifica")
-        print(path_l)
+    def BuscaAlimentos(self, email: str):
+        path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+        print("To na verifica ", email)
+        #print(path_l)
         Tabela = pd.read_csv(path_l)
         Alimentos = Tabela['Alimentos']
         lista_alimentos = Alimentos.values.tolist()
+        
 
         return lista_alimentos
-        
+    
+    def Acao(self, user):
+        alimento_selecionado = self.comboVar.get()
+        print("Cheguei na acao")
+        grama = self.dado.get()
+        Add_Alimento(alimento_selecionado, user, grama)
+
 
 
 root = Tk()
