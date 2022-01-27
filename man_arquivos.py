@@ -43,12 +43,11 @@ class Usuario:
 usuario_logado = ''
 
 
-def Verifica_Usuario(user: Usuario):
-    nome_busca = user.nome
-    email_busca = user.email
-    return Busca_Usuario_Tabela(user.nome, user.email)
+def Verifica_Usuario(email: str):
+    email_busca = email
+    return Busca_Usuario_Tabela(email)
 
-def Busca_Usuario_Tabela(usuario:str, email:str):
+def Busca_Usuario_Tabela(email:str):
     Tabela = pd.read_csv('usuarios/Usuarios.csv')
 
     Emails = Tabela["Email"]
@@ -60,7 +59,7 @@ def Busca_Usuario_Tabela(usuario:str, email:str):
     return 0
 
 def Cria_Usuario(user: Usuario):
-    if(Verifica_Usuario(user)):
+    if(Verifica_Usuario(user.email)):
         print("Usuario ja existe")
         return 0
     else:    

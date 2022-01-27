@@ -2,7 +2,9 @@ from tkinter import *
 from turtle import width
 from tkinter import messagebox
 from tkinter import ttk
+from atividades import *
 from man_arquivos import *
+
 
 
 
@@ -10,9 +12,14 @@ class ResumoDiario:
     def __init__(self, master=None):
         master.title("Resumo")
 
-        self.totalAlimentoCaloria = 0
-        self.totalExercicioCaloria = 0
+        with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
+            usuario_logado = arquivo.read()
 
+
+
+        self.totalAlimentoCaloria = self.CalculaTotalA('sullo152@gmail.com')
+        self.totalExercicioCaloria = 0
+        
 
         self.div1 = Frame(master, bg='#00CED1')
         self.div1.grid(row=0, column=0, pady=(30, 30))
@@ -24,7 +31,7 @@ class ResumoDiario:
 
 
 
-        self.totalA = Label(self.div2,text=f"Total { self.totalAlimentoCaloria}", font=('Arial', '14', 'bold'), bg='#00CED1')
+        self.totalA = Label(self.div2,text=f"Total {self.totalAlimentoCaloria}", font=('Arial', '14', 'bold'), bg='#00CED1')
         self.totalE = Label(self.div2,text=f"Total {self.totalExercicioCaloria}", font=('Arial', '14', 'bold'), bg='#00CED1')
         self.totalA.grid(row=2, column=0)
         self.totalE.grid(row=2, column=1)
@@ -85,15 +92,44 @@ class ResumoDiario:
         lista_alimentos = Alimentos.values.tolist()
         lista_calorias = Calorias.values.tolist()
         contador = 0
+        total = 0
         for i, j in lista_alimentos,lista_calorias:
-            self.alimentosList.insert(parent='', index=contador, values=(lista_alimentos[contador], lista_calorias[contador]))     
+            self.alimentosList.insert(parent='', index=contador, values=(lista_alimentos[contador], lista_calorias[contador]))
+            #total+= lista_calorias     
             contador+=1
 
+        
 
+    def CalculaTotalA(self, email: str):
+        path_l =f'usuarios/{email}/Alimentos Dia.csv'
+        
+        Tabela = pd.read_csv(path_l)
+        Calorias = Tabela['Calorias']
+        lista_calorias = Calorias.values.tolist()
+     
+        total = 0
+        for i in lista_calorias:
+            print(i)
+            total+= i    
+          
+        return total
+        
         #print(lista_alimentos)
         #print(lista_exercicios)
 
-
+    def CalculaTotalE(self, email: str):
+        path_l =f'usuarios/{email}/Exercicio Dia.csv'
+        
+        Tabela = pd.read_csv(path_l)
+        Calorias = Tabela['Calorias']
+        lista_calorias = Calorias.values.tolist()
+        
+        total = 0
+        for i in lista_calorias:
+            
+            total+= Calcula_Caloria_Total() 
+            
+        return total
 
 
 

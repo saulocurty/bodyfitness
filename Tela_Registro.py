@@ -64,7 +64,7 @@ class TelaRegistro:
             self.genero.get()
         )
         g = self.genero.get()
-        if(g.upper() != 'F' and g.upper() != 'M'):
+        if(g.upper() != 'H' and g.upper() != 'M'):
             messagebox.showerror("Erro de Cadastro", "Digite F ou M no Campo 'Sexo'")
         else:
             if(Cria_Usuario(user)):

@@ -9,6 +9,10 @@ class TelaLogin:
     def __init__(self, master=None):
         master.title("LOGIN")
 
+        with open('usuarios/log.txt', 'w') as log:
+            pass
+
+
         self.container1 = Frame(master, bg='#00CED1')
         self.container1["pady"] = 20
         self.container1.grid(column=0, row=0, pady=(40, 0))
@@ -41,11 +45,11 @@ class TelaLogin:
 
     def Logar(self):
         email_user = self.nome.get()
-        A = Usuario('a', 19, 99, email_user, 'm')
-        if(not Verifica_Usuario(A)):
+        if(not Verifica_Usuario(email_user)):
             messagebox.showerror("Erro Login", "Usuario Não Existe")
         else:
-            usuario_logado = email_user
+            with open('usuarios/log.txt', 'w') as log:
+                log.write(email_user)
             messagebox.showinfo('Logado', 'Parabens, voce esta logado')
             self.nome.delete(0, 100)
 
