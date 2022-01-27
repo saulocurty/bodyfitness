@@ -9,13 +9,26 @@ from man_arquivos import *
 class ResumoDiario:
     def __init__(self, master=None):
         master.title("Resumo")
-        
+
+        self.totalAlimentoCaloria = 0
+        self.totalExercicioCaloria = 0
+
+
         self.div1 = Frame(master, bg='#00CED1')
         self.div1.grid(row=0, column=0, pady=(30, 30))
         self.div2 = Frame(master, bg='#00CED1')
         self.div2.grid(row=1, column=0)
         self.div3 = Frame(master, bg='#00CED1')
         self.div3.grid(row=2, column=0)
+
+
+
+
+        self.totalA = Label(self.div2,text=f"Total { self.totalAlimentoCaloria}", font=('Arial', '14', 'bold'), bg='#00CED1')
+        self.totalE = Label(self.div2,text=f"Total {self.totalExercicioCaloria}", font=('Arial', '14', 'bold'), bg='#00CED1')
+        self.totalA.grid(row=2, column=0)
+        self.totalE.grid(row=2, column=1)
+
 
 
         self.botaoV = Button(self.div3, width=15, text='Voltar',relief=RAISED, bg='#5F9EA0')
@@ -26,48 +39,60 @@ class ResumoDiario:
         self.titulo3 = Label(self.div2, font=('Arial', '16', 'bold'), text='Calorias Gastas', bg='#00CED1')
         self.titulo2.grid(row=0, column=0)
         self.titulo3.grid(row=0, column = 1)
-        self.alimentosList = ttk.Treeview(self.div2,column=('nome', 'caloria', 'total'))
+        self.alimentosList = ttk.Treeview(self.div2,column=('nome', 'caloria'))
   
         self.alimentosList.heading("#0",text="")
         self.alimentosList.heading("nome",text="Nome")
         self.alimentosList.heading("caloria", text='Calorias')
-        self.alimentosList.heading("total", text='Total')
+        
 
         self.alimentosList.column("#0", width="0")
-        self.alimentosList.column("nome", width="130")
-        self.alimentosList.column("caloria", width="70")
-        self.alimentosList.column("total", width="70")
-        self.alimentosList.grid(row=1, column=0, padx=(22, 10))
+        self.alimentosList.column("nome", width="150")
+        self.alimentosList.column("caloria", width="100")
+        self.alimentosList.grid(row=1, column=0, padx=(40, 10))
 
-        self.exerciciosList = ttk.Treeview(self.div2,column=('nome', 'caloria', 'total'))
+        self.exerciciosList = ttk.Treeview(self.div2,column=('nome', 'caloria'))
 
         self.exerciciosList.heading("#0",text="")
         self.exerciciosList.heading("nome",text="Nome")
         self.exerciciosList.heading("caloria", text='Calorias')
-        self.exerciciosList.heading("total", text='Total')
 
         self.exerciciosList.column("#0", width="0")
-        self.exerciciosList.column("nome", width="130")
-        self.exerciciosList.column("caloria", width="70")
-        self.exerciciosList.column("total", width="70")
+        self.exerciciosList.column("nome", width="150")
+        self.exerciciosList.column("caloria", width="100")
         self.exerciciosList.grid(row=1, column=1, padx=(0, 5))
         
         self.recomenda = Label(self.div3, text='Recomendações', font=('Sans', '16', 'bold'), bg='#00CED1')
         self.recomenda.grid(row=0, column=0, pady=(20, 10))
-        
-        self.recomenda_text = Message(self.div3, width=300, font=('sans', '14'), bg='#00CED1', justify=LEFT, fg='black')
+    
+
+        self.Coluna_Alimento_Alimento('sullo152@gmail.com')
+
+
+        self.recomenda_text = Message(self.div3, width=300, font=('sans', '14'), bg='#00CED1', justify=LEFT, fg='black', relief=SOLID)
         self.recomenda_text['text'] = 'Iai meus gostoso, como estão? vão se alimentar karalho'
 
         self.recomenda_text.grid(row=1, column=0)
 
+
+
     def Coluna_Alimento_Alimento(self, email: str):
-        path_l = path_l = f'usuarios/{email}/Exercicio Dia.csv'
+        path_l =f'usuarios/sullo152@gmail.com/Alimentos Dia.csv'
         print("Buscando coluna alimentos...")
         Tabela = pd.read_csv(path_l)
         Alimentos = Tabela['Alimentos']
+        Calorias = Tabela['Calorias']
         lista_alimentos = Alimentos.values.tolist()
+        lista_calorias = Calorias.values.tolist()
+        contador = 0
+        for i, j in lista_alimentos,lista_calorias:
+            self.alimentosList.insert(parent='', index=contador, values=(lista_alimentos[contador], lista_calorias[contador]))     
+            contador+=1
 
-        return tuple(lista_alimentos)
+
+        #print(lista_alimentos)
+        #print(lista_exercicios)
+
 
 
 
