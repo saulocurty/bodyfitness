@@ -41,15 +41,14 @@ class SelecionarExercicio:
         self.dado = Entry(self.container2, width=13, font=("Arial", "12"))
         self.dado.grid(row=3, column=1, sticky='w')
 
-        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar', command=self.Acao(usuario_logado))
+        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar')
+        self.botao_salvar['command'] = self.Acao(usuario_logado)
         self.botao_salvar.grid(padx=(60, 0), pady=(30, 0))
 
 
     def BuscaAlimentos(self, email: str):
         path_l = f'usuarios/{email}/Tabela Alimentos.csv'
-        print("To na verifica ", email)
-        #print(path_l)
-        Tabela = pd.read_csv(path_l)
+        Tabela = pd.read_csv(path_l, on_bad_lines='skip')
         Alimentos = Tabela['Alimentos']
         lista_alimentos = Alimentos.values.tolist()
         
@@ -58,14 +57,17 @@ class SelecionarExercicio:
     
     def Acao(self, user):
         alimento_selecionado = self.comboVar.get()
-        print("Cheguei na acao")
         grama = self.dado.get()
+        if grama == '':
+            grama = 0
+        #print("user = ", user)
         Add_Alimento(alimento_selecionado, user, grama)
+        
 
 
 
 root = Tk()
-root.geometry("300x300") #tamanho da tela
+root.geometry("300x300") 
 root.resizable(width=0, height=0)
 SelecionarExercicio(root)
 root.mainloop()
