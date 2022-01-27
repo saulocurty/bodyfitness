@@ -32,7 +32,8 @@ class SelecionarExercicio:
 
         self.nome = Label(self.container2, font=("Arial", "12"), text='Exercicio:')
         self.nome.grid(row=1, column=0, sticky='w', pady=(0, 20))
-        self.comboExercicio = ttk.Combobox(self.container2, value=self.BuscaAlimentos('sullo152@gmail.com'),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
+        self.exercicio = StringVar()
+        self.comboExercicio = ttk.Combobox(self.container2, value=self.buscaExercicio(usuario_logado),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
         self.comboExercicio.grid(column=1, row=1, sticky='w', pady=(0, 20))
         self.comboExercicio.current(0)
 
@@ -41,21 +42,26 @@ class SelecionarExercicio:
         self.dado = Entry(self.container2, width=13, font=("Arial", "12"))
         self.dado.grid(row=3, column=1, sticky='w')
 
-        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar')
+        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar', command=self.Acao)
         self.botao_salvar.grid(padx=(60, 0), pady=(30, 0))
 
 
-    def BuscaAlimentos(self, email: str):
-        path_l = path_l = f'usuarios/{email}/Tabela Exercicio.csv'
-        print("To na verifica")
-        print(path_l)
-        Tabela = pd.read_csv(path_l)
-        Alimentos = Tabela['Atividade 30 minutos']
-        lista_alimentos = Alimentos.values.tolist()
+    def buscaExercicio(self, email: str):
+        path_l = f'usuarios/{email}/Tabela Exercicio.csv'
+        Tabela = pd.read_csv(path_l,  on_bad_lines='skip')
+        Exercicio = Tabela['Exercicio']
+        listaExercicios = Exercicio.values.tolist()
 
-        return lista_alimentos
+        return listaExercicios
+
+    def Acao(self):
+        exercicio_selecionado = self.exercicio.get()
+        tempo = self.dado.get()
+        Add_Exercicio(exercicio_selecionado, usuario_logado, tempo)
+    
+
         
-
+    
 
 root = Tk()
 root.geometry("300x300") #tamanho da tela

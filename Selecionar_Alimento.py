@@ -2,9 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from man_arquivos import *
 
-
-
-class SelecionarExercicio:
+class SelecionarAlimento:
     def __init__(self, master=None):
         master.title("Selecionar Alimento")
 
@@ -41,8 +39,7 @@ class SelecionarExercicio:
         self.dado = Entry(self.container2, width=13, font=("Arial", "12"))
         self.dado.grid(row=3, column=1, sticky='w')
 
-        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar')
-        self.botao_salvar['command'] = self.Acao(usuario_logado)
+        self.botao_salvar = Button(self.container3, width=13, font=("Arial", "12"), text='Salvar',command = self.Acao)
         self.botao_salvar.grid(padx=(60, 0), pady=(30, 0))
 
 
@@ -55,19 +52,16 @@ class SelecionarExercicio:
 
         return lista_alimentos
     
-    def Acao(self, user):
+    def Acao(self):
         alimento_selecionado = self.comboVar.get()
         grama = self.dado.get()
         if grama == '':
             grama = 0
-        #print("user = ", user)
-        Add_Alimento(alimento_selecionado, user, grama)
-        
-
-
+        Add_Alimento(alimento_selecionado, usuario_logado, grama)
+    
 
 root = Tk()
 root.geometry("300x300") 
 root.resizable(width=0, height=0)
-SelecionarExercicio(root)
+SelecionarAlimento(root)
 root.mainloop()

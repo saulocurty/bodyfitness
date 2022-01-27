@@ -197,15 +197,13 @@ def Seleciona_Exercicio(nome: str, email : str):
     path_l = f'usuarios/{email}/Tabela Exercicio.csv'
     Table = pd.read_csv(path_l)
     Exercicios = Table['Atividade 30 minutos']
-    #print(Exercicios)
+    
     
     contador = 0
     for i in Exercicios:
         if(i.lower() == nome.lower()):
             x = Table.loc[[contador]].to_string(header=False, index=False, index_names=False)
             nova = x.split(' ')
-            #alimento_string = ','.join(nova)
-            #print(alimento_string)#debug
             return nova
         contador = contador + 1
     return 0
@@ -219,8 +217,9 @@ def Adiciona_Exercicio_Dia(ex: str, email: str):
             print("Exercicio Criado") 
 
 def Add_Alimento(nome: str, email:str, grama: int):
-    pathR = f'usuarios/{email}/Tabela Alimentos.csv'
-    Tabela = pd.read_csv(pathR)
+    pathR = f'usuarios//asda//Tabela Alimentos.csv'
+    pathL = f'usuarios//asda//Alimentos Dia.csv'
+    Tabela = pd.read_csv(pathR,engine= 'python', on_bad_lines='skip')
     Tabela2 = Tabela['Alimentos']
     contador = 0
     for i in Tabela2:
@@ -232,12 +231,32 @@ def Add_Alimento(nome: str, email:str, grama: int):
 
     calorias = (int(grama) * caloria)/100
 
-
-
-    with open(pathR,"a+", newline='', encoding="utf-8") as csv_file:
+    with open(pathL,"a+", newline='', encoding="utf-8") as csv_file:
             arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
             arquivo.writerow([nome, calorias])
             print("Alimento Criado") 
+
+
+def Add_Exercicio(nome: str, email:str, tempo: int):
+    pathR = f'usuarios//asda//Tabela Exercicio.csv'
+    pathL = f'usuarios//asda//Exercicio Dia.csv'
+    Tabela = pd.read_csv(pathR,engine= 'python', on_bad_lines='skip')
+    Tabela2 = Tabela['Exercicio']
+    contador = 0
+    for i in Tabela2:
+        if i.lower() == nome.lower():
+            break
+        contador+=1
+
+    caloria = Tabela.loc[contador]['Calorias'].item()
+
+    calorias = (caloria * tempo)/ 30
+
+    with open(pathL,"a+", newline='', encoding="utf-8") as csv_file:
+            arquivo = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL,lineterminator='\n')
+            arquivo.writerow([nome, calorias])
+            print("Exercicio Criado") 
+
 
 
 
