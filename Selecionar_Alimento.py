@@ -7,6 +7,10 @@ from man_arquivos import *
 class SelecionarExercicio:
     def __init__(self, master=None):
         master.title("Selecionar Alimento")
+
+        with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
+            usuario_logado = arquivo.read()
+
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
         self.container1 = Frame(master)
@@ -22,12 +26,13 @@ class SelecionarExercicio:
         #self.container3['pady'] = 20
         self.container3.grid(column=0, row=2, pady=(20, 0))
 
-        self.titulo = Label(self.container1, font=("Arial", "14", 'bold'), text='Selecionar Alimento')
+        self.titulo = Label(self.container1, font=("Arial", "14", 'bold'), text='Selecionar Alimento') 
         self.titulo.grid(row=0, column=0, sticky='w', pady=(0,10))
 
         self.nome = Label(self.container2, font=("Arial", "12"), text='Alimento:')
         self.nome.grid(row=1, column=0, sticky='w', pady=(0, 20))
-        self.comboAlimento = ttk.Combobox(self.container2, value=self.BuscaAlimentos('sullo152@gmail.com'),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
+        self.comboVar = StringVar()
+        self.comboAlimento = ttk.Combobox(self.container2, textvariable = self.comboVar, value=self.BuscaAlimentos(usuario_logado),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
         self.comboAlimento.grid(column=1, row=1, sticky='w', pady=(0, 20))
         self.comboAlimento.current(0)
 
@@ -40,8 +45,8 @@ class SelecionarExercicio:
         self.botao_salvar.grid(padx=(60, 0), pady=(30, 0))
 
 
-    def BuscaAlimentos(self, email: str):
-        path_l = path_l = f'usuarios/{email}/Tabela Alimentos.csv'
+    def BuscaAlimentos(self):
+        path_l = path_l = f'usuarios/{usuario_logado}/Tabela Alimentos.csv'
         print("To na verifica")
         print(path_l)
         Tabela = pd.read_csv(path_l)
