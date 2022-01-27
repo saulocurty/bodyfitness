@@ -11,7 +11,7 @@ class SelecionarExercicio:
 
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
-            
+        self.usuario_logado= usuario_logado
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
         self.container1 = Frame(master)
@@ -33,7 +33,7 @@ class SelecionarExercicio:
         self.nome = Label(self.container2, font=("Arial", "12"), text='Exercicio:')
         self.nome.grid(row=1, column=0, sticky='w', pady=(0, 20))
         self.exercicio = StringVar()
-        self.comboExercicio = ttk.Combobox(self.container2, value=self.buscaExercicio(usuario_logado),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
+        self.comboExercicio = ttk.Combobox(self.container2, value=self.buscaExercicio(usuario_logado), textvariable = self.exercicio,width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
         self.comboExercicio.grid(column=1, row=1, sticky='w', pady=(0, 20))
         self.comboExercicio.current(0)
 
@@ -57,14 +57,14 @@ class SelecionarExercicio:
     def Acao(self):
         exercicio_selecionado = self.exercicio.get()
         tempo = self.dado.get()
-        Add_Exercicio(exercicio_selecionado, usuario_logado, tempo)
+        Add_Exercicio(exercicio_selecionado, self.usuario_logado, int(tempo))
     
 
         
     
-
-root = Tk()
-root.geometry("300x300") #tamanho da tela
-root.resizable(width=0, height=0)
-SelecionarExercicio(root)
-root.mainloop()
+if __name__ == '__main__':
+    root = Tk()
+    root.geometry("300x300") #tamanho da tela
+    root.resizable(width=0, height=0)
+    SelecionarExercicio(root)
+    root.mainloop()

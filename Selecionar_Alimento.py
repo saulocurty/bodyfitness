@@ -8,7 +8,7 @@ class SelecionarAlimento:
 
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
-        print(usuario_logado)
+        self.usuario_logado = usuario_logado
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
         self.container1 = Frame(master)
@@ -30,7 +30,7 @@ class SelecionarAlimento:
         self.nome = Label(self.container2, font=("Arial", "12"), text='Alimento:')
         self.nome.grid(row=1, column=0, sticky='w', pady=(0, 20))
         self.comboVar = StringVar()
-        self.comboAlimento = ttk.Combobox(self.container2, textvariable = self.comboVar, value=self.BuscaAlimentos(usuario_logado),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
+        self.comboAlimento = ttk.Combobox(self.container2, textvariable = self.comboVar, value=self.BuscaAlimentos(self.usuario_logado),width = 14, justify = 'center', font=('Arial', '10'), state = 'readonly') #mudar para usuario_logado
         self.comboAlimento.grid(column=1, row=1, sticky='w', pady=(0, 20))
         self.comboAlimento.current(0)
 
@@ -57,11 +57,12 @@ class SelecionarAlimento:
         grama = self.dado.get()
         if grama == '':
             grama = 0
-        Add_Alimento(alimento_selecionado, usuario_logado, grama)
+        print(f"Grama = .{usuario_logado}.")
+        Add_Alimento(alimento_selecionado, self.usuario_logado, grama)
     
-
-root = Tk()
-root.geometry("300x300") 
-root.resizable(width=0, height=0)
-SelecionarAlimento(root)
-root.mainloop()
+if __name__ == '__main__':
+    root = Tk()
+    root.geometry("300x300") 
+    root.resizable(width=0, height=0)
+    SelecionarAlimento(root)
+    root.mainloop()

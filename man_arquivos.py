@@ -5,8 +5,10 @@ import csv
 import asyncio
 import os
 import shutil
+from atividades import *
+from tkinter import *
 
-
+root = Tk()
 
 class Exercicio:
     def __init__(self, nome:str, caloria: int):
@@ -217,8 +219,8 @@ def Adiciona_Exercicio_Dia(ex: str, email: str):
             print("Exercicio Criado") 
 
 def Add_Alimento(nome: str, email:str, grama: int):
-    pathR = f'usuarios//asda//Tabela Alimentos.csv'
-    pathL = f'usuarios//asda//Alimentos Dia.csv'
+    pathR = f'usuarios//{email}//Tabela Alimentos.csv'
+    pathL = f'usuarios//{email}//Alimentos Dia.csv'
     Tabela = pd.read_csv(pathR,engine= 'python', on_bad_lines='skip')
     Tabela2 = Tabela['Alimentos']
     contador = 0
@@ -238,8 +240,8 @@ def Add_Alimento(nome: str, email:str, grama: int):
 
 
 def Add_Exercicio(nome: str, email:str, tempo: int):
-    pathR = f'usuarios//asda//Tabela Exercicio.csv'
-    pathL = f'usuarios//asda//Exercicio Dia.csv'
+    pathR = f'usuarios//{email}//Tabela Exercicio.csv'
+    pathL = f'usuarios//{email}//Exercicio Dia.csv'
     Tabela = pd.read_csv(pathR,engine= 'python', on_bad_lines='skip')
     Tabela2 = Tabela['Exercicio']
     contador = 0
@@ -249,7 +251,7 @@ def Add_Exercicio(nome: str, email:str, tempo: int):
         contador+=1
 
     caloria = Tabela.loc[contador]['Calorias'].item()
-
+    print(f" o timpo de caloria é {type(caloria)}, tempo = {type(tempo)} ")
     calorias = (caloria * tempo)/ 30
 
     with open(pathL,"a+", newline='', encoding="utf-8") as csv_file:

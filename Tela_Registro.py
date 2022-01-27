@@ -78,9 +78,9 @@ class TelaRegistro:
 
 
 
-      
-root = Tk()
-root.geometry("300x300") #tamanho da tela
-root.resizable(width=0, height=0)
-TelaRegistro(root)
-root.mainloop()
+if __name__ == '__main__':    
+    root = Tk()
+    root.geometry("300x300") #tamanho da tela
+    root.resizable(width=0, height=0)
+    TelaRegistro(root)
+    root.mainloop()
