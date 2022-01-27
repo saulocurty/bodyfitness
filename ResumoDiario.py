@@ -12,13 +12,14 @@ class ResumoDiario:
     def __init__(self, master=None):
         master.title("Resumo")
 
+        self.usuario_logado = ''
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
+        self.usuario_logado = usuario_logado
 
 
-
-        self.totalAlimentoCaloria = self.CalculaTotalA('sullo152@gmail.com')
-        self.totalExercicioCaloria = 0
+        self.totalAlimentoCaloria = self.CalculaTotalA(usuario_logado)
+        self.totalExercicioCaloria = self.CalculaTotalE(usuario_logado)
         
 
         self.div1 = Frame(master, bg='#00CED1')
@@ -73,18 +74,20 @@ class ResumoDiario:
         self.recomenda.grid(row=0, column=0, pady=(20, 10))
     
 
-        self.Coluna_Alimento_Alimento('sullo152@gmail.com')
+        self.Coluna_Alimento_Alimento(self.usuario_logado)
+        self.Coluna_Exercicio(self.usuario_logado)
 
 
         self.recomenda_text = Message(self.div3, width=300, font=('sans', '14'), bg='#00CED1', justify=LEFT, fg='black', relief=SOLID)
-        self.recomenda_text['text'] = 'Iai meus gostoso, como estão? vão se alimentar karalho'
+        self.recomenda_text['text'] = self.Recomendacao
 
         self.recomenda_text.grid(row=1, column=0)
 
-
+    def Recomendacao(self):
+        pass
 
     def Coluna_Alimento_Alimento(self, email: str):
-        path_l =f'usuarios/sullo152@gmail.com/Alimentos Dia.csv'
+        path_l =f'usuarios/{email}/Alimentos Dia.csv'
         print("Buscando coluna alimentos...")
         Tabela = pd.read_csv(path_l)
         Alimentos = Tabela['Alimentos']
@@ -92,15 +95,15 @@ class ResumoDiario:
         lista_alimentos = Alimentos.values.tolist()
         lista_calorias = Calorias.values.tolist()
         contador = 0
-        total = 0
+    
         for i, j in lista_alimentos,lista_calorias:
             self.alimentosList.insert(parent='', index=contador, values=(lista_alimentos[contador], lista_calorias[contador]))
-            #total+= lista_calorias     
             contador+=1
 
         
 
     def CalculaTotalA(self, email: str):
+        print(f"email é {email}")
         path_l =f'usuarios/{email}/Alimentos Dia.csv'
         
         Tabela = pd.read_csv(path_l)
@@ -127,11 +130,28 @@ class ResumoDiario:
         total = 0
         for i in lista_calorias:
             
-            total+= Calcula_Caloria_Total() 
+            total+=  i
             
         return total
 
+    def Coluna_Exercicio(self, email: str):
+        path_l =f'usuarios/{email}/Exercicio Dia.csv'
+        Tabela = pd.read_csv(path_l)
+        print("Buscando exercicios")
+        Exercicio = Tabela['Exercicio']
+        Calorias = Tabela['Calorias']
+        lista_exercicio = Exercicio.values.tolist()
+        lista_calorias = Calorias.values.tolist()
+        print(lista_exercicio)
+        print(lista_calorias)
+        contador = 0
 
+        for i in lista_calorias:
+            self.exerciciosList.insert(parent='', index=contador, values=(lista_exercicio[contador], lista_calorias[contador]))
+            #total+= lista_calorias     
+            contador+=1
+
+     
 
 
 

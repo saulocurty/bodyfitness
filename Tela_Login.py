@@ -7,11 +7,6 @@ from man_arquivos import *
 
 class TelaLogin:
     def __init__(self, master=None):
-        self.root = root
-        self.root.configure(bg='#00CED1')
-        self.root.resizable(width=0, height=0)
-        self.root.geometry("300x300")
-
 
         with open('usuarios/log.txt', 'w') as log:
             pass
@@ -63,10 +58,10 @@ class TelaLogin:
 
 
 
-#if __name__ == "__main__":     
-#    root = Tk()
-#    root.geometry("300x300") #tamanho da tela
-#    root.configure(bg='#00CED1')
-#    root.resizable(width=0, height=0)
-#    TelaLogin(root)
-#    root.mainloop()
+if __name__ == "__main__":     
+    root = Tk()
+    root.geometry("300x300") #tamanho da tela
+    root.configure(bg='#00CED1')
+    root.resizable(width=0, height=0)
+    TelaLogin(root)
+    root.mainloop()

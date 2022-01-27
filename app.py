@@ -3,34 +3,58 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-class Aplicacao:
-    def __init__(self, master=None):
-        master.title = "Aplicação"
-    def CriaJanela():
-        TelaLogin(Toplevel)
+class Aplicacao(Tk):
+    def __init__(self, *args, **kwargs):
+        Tk.__init__(self, *args, **kwargs)
+        container = Frame(self)
+        container.pack(side = 'top', fill = 'both', expand = 'true')
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+
+
+        for F in (Testes,TelaLogin,TelaRegistro,SelecionarExercicio):
+
+            frame = F(container, self)
+            self.frames[F] = frame 
+
+            frame.grid(row = 0, column = 0, sticky ="nsew")
+            
+
+        self.show_frame(SelecionarExercicio)
+
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+
+        frame.tkraise()
+
 
         
 
 
 
 class ResumoDiario:
-    def __init__(self, master=None):
-        master.title("Resumo")
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
 
+
+        self.usuario_logado = ''
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
+        self.usuario_logado = usuario_logado
 
 
-
-        self.totalAlimentoCaloria = self.CalculaTotalA('sullo152@gmail.com')
-        self.totalExercicioCaloria = 0
+        self.totalAlimentoCaloria = self.CalculaTotalA(usuario_logado)
+        self.totalExercicioCaloria = self.CalculaTotalE(usuario_logado)
         
 
-        self.div1 = Frame(master, bg='#00CED1')
+        self.div1 = Frame(self, bg='#00CED1')
         self.div1.grid(row=0, column=0, pady=(30, 30))
-        self.div2 = Frame(master, bg='#00CED1')
+        self.div2 = Frame(self, bg='#00CED1')
         self.div2.grid(row=1, column=0)
-        self.div3 = Frame(master, bg='#00CED1')
+        self.div3 = Frame(self, bg='#00CED1')
         self.div3.grid(row=2, column=0)
 
 
@@ -78,18 +102,20 @@ class ResumoDiario:
         self.recomenda.grid(row=0, column=0, pady=(20, 10))
     
 
-        self.Coluna_Alimento_Alimento('sullo152@gmail.com')
+        self.Coluna_Alimento_Alimento(self.usuario_logado)
+        self.Coluna_Exercicio(self.usuario_logado)
 
 
         self.recomenda_text = Message(self.div3, width=300, font=('sans', '14'), bg='#00CED1', justify=LEFT, fg='black', relief=SOLID)
-        self.recomenda_text['text'] = 'Iai meus gostoso, como estão? vão se alimentar karalho'
+        self.recomenda_text['text'] = self.Recomendacao
 
         self.recomenda_text.grid(row=1, column=0)
 
-
+    def Recomendacao(self):
+        pass
 
     def Coluna_Alimento_Alimento(self, email: str):
-        path_l =f'usuarios/sullo152@gmail.com/Alimentos Dia.csv'
+        path_l =f'usuarios/{email}/Alimentos Dia.csv'
         print("Buscando coluna alimentos...")
         Tabela = pd.read_csv(path_l)
         Alimentos = Tabela['Alimentos']
@@ -97,15 +123,15 @@ class ResumoDiario:
         lista_alimentos = Alimentos.values.tolist()
         lista_calorias = Calorias.values.tolist()
         contador = 0
-        total = 0
+    
         for i, j in lista_alimentos,lista_calorias:
             self.alimentosList.insert(parent='', index=contador, values=(lista_alimentos[contador], lista_calorias[contador]))
-            #total+= lista_calorias     
             contador+=1
 
         
 
     def CalculaTotalA(self, email: str):
+        print(f"email é {email}")
         path_l =f'usuarios/{email}/Alimentos Dia.csv'
         
         Tabela = pd.read_csv(path_l)
@@ -132,33 +158,54 @@ class ResumoDiario:
         total = 0
         for i in lista_calorias:
             
-            total+= Calcula_Caloria_Total() 
+            total+=  i
             
         return total
 
+    def Coluna_Exercicio(self, email: str):
+        path_l =f'usuarios/{email}/Exercicio Dia.csv'
+        Tabela = pd.read_csv(path_l)
+        print("Buscando exercicios")
+        Exercicio = Tabela['Exercicio']
+        Calorias = Tabela['Calorias']
+        lista_exercicio = Exercicio.values.tolist()
+        lista_calorias = Calorias.values.tolist()
+        print(lista_exercicio)
+        print(lista_calorias)
+        contador = 0
+
+        for i in lista_calorias:
+            self.exerciciosList.insert(parent='', index=contador, values=(lista_exercicio[contador], lista_calorias[contador]))
+            #total+= lista_calorias     
+            contador+=1
+
+     
 
 
 
 
-class SelecionarAlimento:
-    def __init__(self, master=None):
-        master.title("Selecionar Alimento")
+
+
+class SelecionarAlimento(Frame):
+    def __init__(self, parent, controller): 
+
+        Frame.__init__(self, parent)
 
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
         self.usuario_logado = usuario_logado
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
-        self.container1 = Frame(master)
+        self.container1 = Frame(self)
         self.container1["pady"] = 20
         self.container1.grid(column=0, row=0, pady=(20, 20), padx=(50, 0))
 
-        self.container2 = Frame(master)
+        self.container2 = Frame(self)
         self.container2['pady'] = 0
         self.container2["padx"] = 10
         self.container2.grid(column=0, row=1)
 
-        self.container3 = Frame(master)
+        self.container3 = Frame(self)
         #self.container3['pady'] = 20
         self.container3.grid(column=0, row=2, pady=(20, 0))
 
@@ -198,25 +245,25 @@ class SelecionarAlimento:
         print(f"Grama = .{usuario_logado}.")
         Add_Alimento(alimento_selecionado, self.usuario_logado, grama)
  
-class SelecionarExercicio:
-    def __init__(self, master=None):
-        master.title("Selecionar Alimento")
+class SelecionarExercicio(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
 
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
         self.usuario_logado= usuario_logado
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
-        self.container1 = Frame(master)
+        self.container1 = Frame(self)
         self.container1["pady"] = 20
         self.container1.grid(column=0, row=0, pady=(20, 20), padx=(50, 0))
 
-        self.container2 = Frame(master)
+        self.container2 = Frame(self)
         self.container2['pady'] = 0
         self.container2["padx"] = 10
         self.container2.grid(column=0, row=1)
 
-        self.container3 = Frame(master)
+        self.container3 = Frame(self)
         #self.container3['pady'] = 20
         self.container3.grid(column=0, row=2, pady=(20, 0))
 
@@ -254,24 +301,20 @@ class SelecionarExercicio:
     
 
         
-class TelaLogin:
-    def __init__(self, master=None):
-        master.title("Login")
+class TelaLogin(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
 
-        with open('usuarios/log.txt', 'w') as log:
-            pass
-
-
-        self.container1 = Frame(master, bg='#00CED1')
+        self.container1 = Frame(self, bg='#00CED1')
         self.container1["pady"] = 20
         self.container1.grid(column=0, row=0, pady=(40, 0))
 
-        self.container2 = Frame(master, bg='#00CED1')
+        self.container2 = Frame(self, bg='#00CED1')
         self.container2['pady'] = 20
         self.container2["padx"] = 100
         self.container2.grid(column=0, row=1)
 
-        self.container3 = Frame(master, bg='#00CED1')
+        self.container3 = Frame(self, bg='#00CED1')
         #self.container3['pady'] = 20
         self.container3["padx"] = 110
         self.container3.grid(column=0, row=2)
@@ -303,24 +346,23 @@ class TelaLogin:
             self.nome.delete(0, 100)
 
 
-class TelaMenu:
-    def __init__(self, master=None):
-        master.title("Menu")
-
+class TelaMenu(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
 
-        self.container1 = Frame(master, width=600, height=200)
+        self.container1 = Frame(self, width=600, height=200)
         self.container1["pady"] = 20
         self.container1["padx"] = 0
         self.container1.grid(column=0, row=0, pady=(40, 0))
 
-        self.container2 = Frame(master)
+        self.container2 = Frame(self)
         #self.container2['pady'] = 20
         #self.container2["padx"] = 10
         self.container2.grid(column=0, row=1, padx=(35, 0))
 
-        self.container3 = Frame(master)
+        self.container3 = Frame(self)
         #self.container3['pady'] = 20
         #self.container3["padx"] = 10
         self.container3.grid(column=0, row=2)
@@ -346,20 +388,20 @@ class TelaMenu:
 
 
 
-class TelaRegistro:
-    def __init__(self, master=None):
-        master.title("Regsitro")
+class TelaRegistro(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
 
-        self.container1 = Frame(master)
+        self.container1 = Frame(self)
         self.container1["padx"] = 50
         self.container1.grid(column=0, row=0, pady=(40, 0))
 
-        self.container2 = Frame(master)
+        self.container2 = Frame(self)
         self.container2['pady'] = 20
         self.container2["padx"] = 10
         self.container2.grid(column=0, row=1)
 
-        self.container3 = Frame(master)
+        self.container3 = Frame(self)
         #self.container3['pady'] = 20
         self.container3.grid(column=0, row=2)
 
@@ -418,9 +460,13 @@ class TelaRegistro:
                 self.email.delete(0, 100)
                 self.genero.delete(0, 100)
 
+class Testes(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+
+        label = ttk.Label(self, text="AAAAAA")
 
 
-
-root = Tk()
-Aplicacao(root)
-root.mainloop()
+app = Aplicacao()
+app.mainloop()
+ 

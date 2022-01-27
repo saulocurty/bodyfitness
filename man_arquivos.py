@@ -44,7 +44,7 @@ class Usuario:
 
 
 usuario_logado = ''
-
+user_logado = Usuario('', 0, 0,'','')
 
 def Verifica_Usuario(email: str):
     email_busca = email
@@ -223,6 +223,7 @@ def Add_Alimento(nome: str, email:str, grama: int):
     pathL = f'usuarios//{email}//Alimentos Dia.csv'
     Tabela = pd.read_csv(pathR,engine= 'python', on_bad_lines='skip')
     Tabela2 = Tabela['Alimentos']
+    print(Tabela2)
     contador = 0
     for i in Tabela2:
         if i.lower() == nome.lower():
@@ -243,10 +244,12 @@ def Add_Exercicio(nome: str, email:str, tempo: int):
     pathR = f'usuarios//{email}//Tabela Exercicio.csv'
     pathL = f'usuarios//{email}//Exercicio Dia.csv'
     Tabela = pd.read_csv(pathR,engine= 'python', on_bad_lines='skip')
-    Tabela2 = Tabela['Exercicio']
+    Tabela2 = Tabela['Exercicio'].tolist()
     contador = 0
     for i in Tabela2:
-        if i.lower() == nome.lower():
+        print(f"i = {i}")
+        print(f"nome = {nome}")
+        if i.lower() == nome:
             break
         contador+=1
 

@@ -9,7 +9,6 @@ class SelecionarAlimento:
         with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
             usuario_logado = arquivo.read()
         self.usuario_logado = usuario_logado
-        self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 
         self.container1 = Frame(master)
         self.container1["pady"] = 20
@@ -57,7 +56,7 @@ class SelecionarAlimento:
         grama = self.dado.get()
         if grama == '':
             grama = 0
-        print(f"Grama = .{usuario_logado}.")
+        print(f"Grama = .{self.usuario_logado}.")
         Add_Alimento(alimento_selecionado, self.usuario_logado, grama)
     
 if __name__ == '__main__':
