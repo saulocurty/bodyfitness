@@ -8,7 +8,7 @@ from man_arquivos import *
 class TelaLogin:
     def __init__(self, master=None):
 
-        with open('usuarios/log.txt', 'w') as log:
+        with open('log.txt', 'w') as log:
             pass
 
 
@@ -47,7 +47,7 @@ class TelaLogin:
         if(not Verifica_Usuario(email_user)):
             messagebox.showerror("Erro Login", "Usuario Não Existe")
         else:
-            with open('usuarios/log.txt', 'w') as log:
+            with open('log.txt', 'w') as log:
                 log.write(email_user)
             messagebox.showinfo('Logado', 'Parabens, voce esta logado')
             self.nome.delete(0, 100)

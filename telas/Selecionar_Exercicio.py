@@ -9,8 +9,7 @@ class SelecionarExercicio:
     def __init__(self, master=None):
         master.title("Selecionar Alimento")
 
-        with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
-            usuario_logado = arquivo.read()
+        usuario_logado = 'asda'
         self.usuario_logado= usuario_logado
         self.user = Usuario('saulo', 19, 58, 'sullo152@gmail.com', 'm')
 

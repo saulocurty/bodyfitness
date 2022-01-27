@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from man_arquivos import *
+from telas.man_arquivos import *
 
 class SelecionarAlimento:
     def __init__(self, master=None):

@@ -7,10 +7,6 @@ from man_arquivos import *
 class TelaMenu:
     def __init__(self, master=None):
         master.title("Menu")
-
-        with open('usuarios/Log.txt', 'r', encoding="utf8") as arquivo:
-            usuario_logado = arquivo.read()
-
         self.container1 = Frame(master, width=600, height=200, bg='#00CED1')
         self.container1["pady"] = 20
         self.container1["padx"] = 0

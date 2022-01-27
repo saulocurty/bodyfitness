@@ -3,7 +3,7 @@ from turtle import width
 from tkinter import messagebox
 from tkinter import ttk
 from atividades import *
-from man_arquivos import *
+from telas.man_arquivos import *
 
 
 

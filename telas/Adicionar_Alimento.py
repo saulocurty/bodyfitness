@@ -1,6 +1,6 @@
 from tkinter import *
 from turtle import width
-from man_arquivos import *
+from telas.man_arquivos import *
 from tkinter import messagebox
 
 class AdicionarAlimento:
